@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -43,7 +44,6 @@ public class ArtistController {
         Artist artist = service.getArtist(id);
         model.addAttribute("artist", artist);
 
-        // Générer le lien retour pour l'annulation
         String referrer = request.getHeader("Referer");
         if (referrer != null && !referrer.isEmpty()) {
             model.addAttribute("back", referrer);
@@ -70,6 +70,28 @@ public class ArtistController {
         }
 
         service.updateArtist(id, artist);
+
+        return "redirect:/artists/" + artist.getId();
+    }
+
+    @GetMapping("/artists/create")
+    public String create(Model model) {
+        Artist artist = new Artist();
+        model.addAttribute("artist", artist);
+
+        return "artist/create";
+    }
+
+    @PostMapping("/artists/create")
+    public String store(@Valid @ModelAttribute("artist") Artist artist,
+                        BindingResult bindingResult,
+                        Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "artist/create";
+        }
+
+        service.addArtist(artist);
 
         return "redirect:/artists/" + artist.getId();
     }
