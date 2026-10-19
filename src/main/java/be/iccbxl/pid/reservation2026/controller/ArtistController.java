@@ -1,6 +1,7 @@
 package be.iccbxl.pid.reservation2026.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,10 +53,10 @@ public class ArtistController {
         //Générer le lien retour pour l'annulation
         String referrer = request.getHeader("Referer");
 
-        if(referrer!=null && !referrer.equals("")) {
+        if (referrer != null && !referrer.equals("")) {
             model.addAttribute("back", referrer);
         } else {
-            model.addAttribute("back", "/artists/"+artist.getId());
+            model.addAttribute("back", "/artists/" + artist.getId());
         }
 
         return "artist/edit";
@@ -72,7 +73,7 @@ public class ArtistController {
 
         Artist existing = service.getArtist(id);
 
-        if(existing==null) {
+        if (existing == null) {
             return "artist/index";
         }
 
@@ -80,7 +81,7 @@ public class ArtistController {
 
         redirAttrs.addFlashAttribute("successMessage", "Artiste modifié avec succès.");
 
-        return "redirect:/artists/"+artist.getId();
+        return "redirect:/artists/" + artist.getId();
     }
 
     @GetMapping("/artists/create")
@@ -105,14 +106,14 @@ public class ArtistController {
 
         redirAttrs.addFlashAttribute("successMessage", "Artiste créé avec succès.");
 
-        return "redirect:/artists/"+artist.getId();
+        return "redirect:/artists/" + artist.getId();
     }
 
     @DeleteMapping("/artists/{id}")
     public String delete(@PathVariable long id, Model model, RedirectAttributes redirAttrs) {
         Artist existing = service.getArtist(id);
 
-        if(existing!=null) {
+        if (existing != null) {
             service.deleteArtist(id);
             redirAttrs.addFlashAttribute("successMessage", "Artiste supprimé avec succès.");
         } else {
