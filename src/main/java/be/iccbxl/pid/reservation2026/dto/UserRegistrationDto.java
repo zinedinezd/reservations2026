@@ -1,11 +1,13 @@
 package be.iccbxl.pid.reservation2026.dto;
 
+import be.iccbxl.pid.reservation2026.validation.PasswordMatches;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
+@PasswordMatches  // annotation personnalisée
 public class UserRegistrationDto {
     @NotBlank(message = "Le prénom est obligatoire")
     private String firstname;
