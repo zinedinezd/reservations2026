@@ -9,23 +9,27 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
-        String password;
-        String confirmPassword;
+        String pwd;
+        String confirm;
 
         if (obj instanceof UserRegistrationDto dto) {
-            password = dto.getPassword();
-            confirmPassword = dto.getConfirmPassword();
+            pwd = dto.getPassword();
+            confirm = dto.getConfirmPassword();
         } else if (obj instanceof UserProfileDto dto) {
-            password = dto.getPassword();
-            confirmPassword = dto.getConfirmPassword();
+            pwd = dto.getPassword();
+            confirm = dto.getConfirmPassword();
         } else {
             return false;
         }
 
-        if (password == null || confirmPassword == null) {
-            return false;
+        // Si les deux champs sont vides, on considère que le mot de passe n'est pas modifié => OK
+        if ((pwd == null || pwd.isBlank()) && (confirm == null || confirm.isBlank())) {
+            return true;
         }
 
-        return password.equals(confirmPassword);
+        // Sinon, il faut qu'ils soient identiques
+        if (pwd == null) return false;
+
+        return pwd.equals(confirm);
     }
 }
