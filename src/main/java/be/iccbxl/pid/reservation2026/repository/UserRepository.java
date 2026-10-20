@@ -1,11 +1,12 @@
 package be.iccbxl.pid.reservation2026.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
 import be.iccbxl.pid.reservation2026.model.User;
+
+import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByLogin(String login);
@@ -13,4 +14,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findById(long id);
     Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
+    boolean existsByLogin(String login);
 }
